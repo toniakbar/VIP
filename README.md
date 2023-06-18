@@ -35,7 +35,7 @@
 <br>
 🚀 DOMAIN (MUST)
 <br>
-🚀 DEBIAN 9/10
+🚀 DEBIAN 9/10/11
 <br>
 🚀 Ubuntu 18/20 LTS
 <br>
