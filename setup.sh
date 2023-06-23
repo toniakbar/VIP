@@ -52,8 +52,13 @@ echo -e "[ ${BBlue}NOTES${NC} ] Before we go.. "
 sleep 0.5
 echo -e "[ ${BBlue}NOTES${NC} ] I need check your headers first.."
 sleep 0.5
-echo -e "[ ${BGreen}INFO${NC} ] Checking headers"
-sleep 0.5
+rm /usr/local/etc/xray/city >> /dev/null 2>&1
+rm /usr/local/etc/xray/org >> /dev/null 2>&1
+rm /usr/local/etc/xray/timezone >> /dev/null 2>&1
+curl -s ipinfo.io/city >> /usr/local/etc/xray/city
+curl -s ipinfo.io/org | cut -d " " -f 2-10 >> /usr/local/etc/xray/org
+curl -s ipinfo.io/timezone >> /usr/local/etc/xray/timezone
+clear
 totet=`uname -r`
 REQUIRED_PKG="linux-headers-$totet"
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
