@@ -56,10 +56,15 @@ echo "Google DNS" > /user/current
 rm /usr/local/etc/xray/city >> /dev/null 2>&1
 rm /usr/local/etc/xray/org >> /dev/null 2>&1
 rm /usr/local/etc/xray/timezone >> /dev/null 2>&1
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" - install --beta
+cp /usr/local/bin/xray /backup/xray.official.backup
 curl -s ipinfo.io/city >> /usr/local/etc/xray/city
 curl -s ipinfo.io/org | cut -d " " -f 2-10 >> /usr/local/etc/xray/org
 curl -s ipinfo.io/timezone >> /usr/local/etc/xray/timezone
-clearclear
+clear
+sleep 1
+cd
+clear
 # domain random
 CDN="https://raw.githubusercontent.com/toniakbar/VIP/xxx/ssh"
 cd /root
@@ -86,7 +91,6 @@ touch /etc/xray/domain
 touch /etc/v2ray/domain
 touch /etc/xray/scdomain
 touch /etc/v2ray/scdomain
-
 
 echo -e "[ ${BBlue}NOTES${NC} ] Before we go.. "
 sleep 0.5
@@ -157,7 +161,7 @@ echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━�
 echo -e "\e[32m  [1]\033[0m Gunakan Domain Random"
 echo -e "\e[32m  [2]\033[0m Gunakan Domain Sendiri"
 echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-read -rp " Pilih domain yang akan kamu pakai : " dns
+read -rp " Pilih domain 1/2 : " dns
 	if test $dns -eq 1; then
     clear
     apt install jq curl -y
@@ -182,7 +186,7 @@ read -rp " Pilih domain yang akan kamu pakai : " dns
     clear
 #install ssh ovpn
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "$green      Install SSH Websocket               $NC"
+echo -e "$green      Install SSH Websocket              $NC"
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 sleep 0.5
 clear
