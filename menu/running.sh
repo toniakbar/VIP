@@ -45,8 +45,8 @@ basedong=$ID
 
 echo -e "$ITAM"
 REGION=$( curl -s ipinfo.io/region )
-MYIP=$(curl -s ifconfig.me )
-CITY=$( curl -s ipinfo.io/city )
+ISP=$(cat /usr/local/etc/xray/org)
+CITY=$(cat /usr/local/etc/xray/city)
 
 # CHEK STATUS 
 tls_v2ray_status=$(systemctl status xray | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
