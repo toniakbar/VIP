@@ -77,19 +77,18 @@
 🚀 Shadowsocks gRPC : 443
 <br>
 
-## For Debian 9 & 10 Only For First Time Installation (Update Repo) <br>
- 
+<br>
+<h2 align="center">
+🚀  Debian 9 & 10 Only For First Time Installation (Update Repo) 🚀<br>
   ```html
  apt update -y && apt upgrade -y && apt dist-upgrade -y && reboot
   ```
 <br>
 <h2 align="center">
-🚀  Ubuntu 18.04 & 20.04 Only For First Time Installation (Update Repo) 🚀<br>
-  
+🚀  Ubuntu 18.04 & 20.04 Only For First Time Installation (Update Repo) 🚀<br> 
   ```html
  apt-get update && apt-get upgrade -y && apt dist-upgrade -y && update-grub && apt install curl -y && reboot
  ```
-
 <br>
 <h2 align="center">
 🚀 Installation Script By Digital-Net 🚀<br>
