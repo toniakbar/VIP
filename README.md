@@ -87,10 +87,8 @@
   ```html
  apt-get update && apt-get upgrade -y && apt dist-upgrade -y && update-grub && apt install curl -y && reboot
  ```
-## Installation Link<br>
 
 <br>
-  ```
 <h2 align="center">
 🚀 Installation Script By Digital-Net 🚀<br>
 
