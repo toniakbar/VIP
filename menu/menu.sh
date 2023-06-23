@@ -105,7 +105,7 @@ cpu_usage1="$(ps aux | awk 'BEGIN {sum=0} {sum+=$3}; END {print sum}')"
 cpu_usage="$((${cpu_usage1/\.*} / ${corediilik:-1}))"
 cpu_usage+=" %"
 ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
-CITY=$(cat /usr/local/etc/xray/city)
+CITY=$(curl -s ipinfo.io/city?token=7578ac19afd785 )
 WKT=$(curl -s ipinfo.io/timezone?token=7578ac19afd785 )
 DAY=$(date +%A)
 DATE=$(date +%m/%d/%Y)
