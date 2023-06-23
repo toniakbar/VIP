@@ -43,6 +43,8 @@ systemctl enable NetworkManager
 rm -rf /etc/resolv.conf
 rm -rf /etc/resolvconf/resolv.conf.d/head
 echo "
+nameserver 8.8.8.8
+nameserver 1.1.1.1
 nameserver 127.0.0.53
 " >> /etc/resolv.conf
 echo "
