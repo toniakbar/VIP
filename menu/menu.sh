@@ -104,13 +104,14 @@ Name=$"Digital-Net"
 cpu_usage1="$(ps aux | awk 'BEGIN {sum=0} {sum+=$3}; END {print sum}')"
 cpu_usage="$((${cpu_usage1/\.*} / ${corediilik:-1}))"
 cpu_usage+=" %"
-ISP=$(curl -s ipinfo.io/org?token=7578ac19afd785 | cut -d " " -f 2-10 )
-CITY=$(curl -s ipinfo.io/city?token=7578ac19afd785 )
+domain=$(cat /usr/local/etc/xray/domain)
+ISP=$(cat /usr/local/etc/xray/org)
+CITY=$(cat /usr/local/etc/xray/city)
 WKT=$(curl -s ipinfo.io/timezone?token=7578ac19afd785 )
-DAY=$(date +%A)
+IPVPS=$(curl -s ipinfo.io/ip?token=7578ac19afd785 )
 DATE=$(date +%m/%d/%Y)
 DATE2=$(date -R | cut -d " " -f -5)
-IPVPS=$(curl -s ipinfo.io/ip?token=7578ac19afd785 )
+MYIP=$(curl -sS ipv4.icanhazip.com)
 cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
 cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
 freq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
