@@ -1,11 +1,5 @@
 #!/bin/bash
 clear
-rm -rf setup.sh
-rm -rf /etc/xray/domain
-rm -rf /etc/v2ray/domain
-rm -rf /etc/xray/scdomain
-rm -rf /etc/v2ray/scdomain
-rm -rf /var/lib/ipvps.conf
 red='\e[1;31m'
 green='\e[0;32m'
 yell='\e[1;33m'
@@ -46,23 +40,6 @@ touch /etc/xray/domain
 touch /etc/v2ray/domain
 touch /etc/xray/scdomain
 touch /etc/v2ray/scdomain
-
-
-echo -e "[ ${BBlue}NOTES${NC} ] Before we go.. "
-sleep 0.5
-echo -e "[ ${BBlue}NOTES${NC} ] I need check your headers first.."
-sleep 0.5
-RB='\e[31;1m'
-GB='\e[32;1m'
-YB='\e[33;1m'
-BB='\e[34;1m'
-MB='\e[35;1m'
-CB='\e[35;1m'
-WB='\e[37;1m'
-secs_to_human() {
-echo -e "${WB}Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds${NC}"
-}
-start=$(date +%s)
 apt update -y
 apt upgrade -y
 apt dist-upgrade -y
@@ -97,50 +74,11 @@ echo "Google DNS" > /user/current
 rm /usr/local/etc/xray/city >> /dev/null 2>&1
 rm /usr/local/etc/xray/org >> /dev/null 2>&1
 rm /usr/local/etc/xray/timezone >> /dev/null 2>&1
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" - install --beta
-cp /usr/local/bin/xray /backup/xray.official.backup
 curl -s ipinfo.io/city >> /usr/local/etc/xray/city
 curl -s ipinfo.io/org | cut -d " " -f 2-10 >> /usr/local/etc/xray/org
 curl -s ipinfo.io/timezone >> /usr/local/etc/xray/timezone
-clear
-totet=`uname -r`
-REQUIRED_PKG="linux-headers-$totet"
-PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
-echo Checking for $REQUIRED_PKG: $PKG_OK
-if [ "" = "$PKG_OK" ]; then
-  sleep 0.5
-  echo -e "[ ${BRed}WARNING${NC} ] Try to install ...."
-  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-  apt-get --yes install $REQUIRED_PKG
-  sleep 0.5
-  echo ""
-  sleep 0.5
-  echo -e "[ ${BBlue}NOTES${NC} ] If error you need.. to do this"
-  sleep 0.5
-  echo ""
-  sleep 0.5
-  echo -e "[ ${BBlue}NOTES${NC} ] apt update && upgrade"
-  sleep 0.5
-  echo ""
-  sleep 0.5
-  echo -e "[ ${BBlue}NOTES${NC} ] After this"
-  sleep 0.5
-  echo -e "[ ${BBlue}NOTES${NC} ] Then run this script again"
-  echo -e "[ ${BBlue}NOTES${NC} ] enter now"
-  read
-else
-  echo -e "[ ${BGreen}INFO${NC} ] Oke installed"
-fi
-
-ttet=`uname -r`
-ReqPKG="linux-headers-$ttet"
-if ! dpkg -s $ReqPKG  >/dev/null 2>&1; then
-  rm /root/setup.sh >/dev/null 2>&1 
-  exit
-else
   clear
 fi
-
 
 secs_to_human() {
     echo "Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds"
