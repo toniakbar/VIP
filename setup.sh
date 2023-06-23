@@ -1,5 +1,11 @@
 #!/bin/bash
 clear
+rm -rf setup.sh
+rm -rf /etc/xray/domain
+rm -rf /etc/v2ray/domain
+rm -rf /etc/xray/scdomain
+rm -rf /etc/v2ray/scdomain
+rm -rf /var/lib/ipvps.conf
 red='\e[1;31m'
 green='\e[0;32m'
 yell='\e[1;33m'
@@ -14,32 +20,6 @@ tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
-# domain random
-CDN="https://raw.githubusercontent.com/toniakbar/VIP/xxx/ssh"
-cd /root
-#System version number
-if [ "${EUID}" -ne 0 ]; then
-		echo "You need to run this script as root"
-		exit 1
-fi
-if [ "$(systemd-detect-virt)" == "openvz" ]; then
-		echo "OpenVZ is not supported"
-		exit 1
-fi
-
-localip=$(hostname -I | cut -d\  -f1)
-hst=( `hostname` )
-dart=$(cat /etc/hosts | grep -w `hostname` | awk '{print $2}')
-if [[ "$hst" != "$dart" ]]; then
-echo "$localip $(hostname)" >> /etc/hosts
-fi
-
-mkdir -p /etc/xray
-mkdir -p /etc/v2ray
-touch /etc/xray/domain
-touch /etc/v2ray/domain
-touch /etc/xray/scdomain
-touch /etc/v2ray/scdomain
 apt update -y
 apt upgrade -y
 apt dist-upgrade -y
@@ -74,11 +54,94 @@ echo "Google DNS" > /user/current
 rm /usr/local/etc/xray/city >> /dev/null 2>&1
 rm /usr/local/etc/xray/org >> /dev/null 2>&1
 rm /usr/local/etc/xray/timezone >> /dev/null 2>&1
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" - install --beta
+cp /usr/local/bin/xray /backup/xray.official.backup
 curl -s ipinfo.io/city >> /usr/local/etc/xray/city
 curl -s ipinfo.io/org | cut -d " " -f 2-10 >> /usr/local/etc/xray/org
 curl -s ipinfo.io/timezone >> /usr/local/etc/xray/timezone
+clear
+echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Xray-core mod${NC}"
+sleep 0.5
+wget -q -O /backup/xray.mod.backup "https://github.com/dharak36/Xray-core/releases/download/v1.0.0/xray.linux.64bit"
+echo -e "${GB}[ INFO ]${NC} ${YB}Download Xray-core done${NC}"
+sleep 1
+cd
+clear
+curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+sudo apt-get install speedtest
+clear
+# domain random
+CDN="https://raw.githubusercontent.com/toniakbar/VIP/xxx/ssh"
+cd /root
+#System version number
+if [ "${EUID}" -ne 0 ]; then
+		echo "You need to run this script as root"
+		exit 1
+fi
+if [ "$(systemd-detect-virt)" == "openvz" ]; then
+		echo "OpenVZ is not supported"
+		exit 1
+fi
+
+localip=$(hostname -I | cut -d\  -f1)
+hst=( `hostname` )
+dart=$(cat /etc/hosts | grep -w `hostname` | awk '{print $2}')
+if [[ "$hst" != "$dart" ]]; then
+echo "$localip $(hostname)" >> /etc/hosts
+fi
+# buat folder
+mkdir -p /etc/xray
+mkdir -p /etc/v2ray
+touch /etc/xray/domain
+touch /etc/v2ray/domain
+touch /etc/xray/scdomain
+touch /etc/v2ray/scdomain
+
+
+echo -e "[ ${BBlue}NOTES${NC} ] Before we go.. "
+sleep 0.5
+echo -e "[ ${BBlue}NOTES${NC} ] I need check your headers first.."
+sleep 0.5
+echo -e "[ ${BGreen}INFO${NC} ] Checking headers"
+sleep 0.5
+totet=`uname -r`
+REQUIRED_PKG="linux-headers-$totet"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+echo Checking for $REQUIRED_PKG: $PKG_OK
+if [ "" = "$PKG_OK" ]; then
+  sleep 0.5
+  echo -e "[ ${BRed}WARNING${NC} ] Try to install ...."
+  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
+  apt-get --yes install $REQUIRED_PKG
+  sleep 0.5
+  echo ""
+  sleep 0.5
+  echo -e "[ ${BBlue}NOTES${NC} ] If error you need.. to do this"
+  sleep 0.5
+  echo ""
+  sleep 0.5
+  echo -e "[ ${BBlue}NOTES${NC} ] apt update && upgrade"
+  sleep 0.5
+  echo ""
+  sleep 0.5
+  echo -e "[ ${BBlue}NOTES${NC} ] After this"
+  sleep 0.5
+  echo -e "[ ${BBlue}NOTES${NC} ] Then run this script again"
+  echo -e "[ ${BBlue}NOTES${NC} ] enter now"
+  read
+else
+  echo -e "[ ${BGreen}INFO${NC} ] Oke installed"
+fi
+
+ttet=`uname -r`
+ReqPKG="linux-headers-$ttet"
+if ! dpkg -s $ReqPKG  >/dev/null 2>&1; then
+  rm /root/setup.sh >/dev/null 2>&1 
+  exit
+else
   clear
 fi
+
 
 secs_to_human() {
     echo "Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds"
@@ -93,11 +156,6 @@ apt install git curl -y >/dev/null 2>&1
 apt install python -y >/dev/null 2>&1
 echo -e "[ ${BGreen}INFO${NC} ] Aight good ... installation file is ready"
 sleep 0.5
-echo -ne "[ ${BGreen}INFO${NC} ] Check permission : "
-
-echo -e "$BGreen Permission Accepted!$NC"
-sleep 2
-
 mkdir -p /var/lib/ >/dev/null 2>&1
 echo "IP=" >> /var/lib/ipvps.conf
 
@@ -175,8 +233,20 @@ fi
 if [ -f "/etc/afak.conf" ]; then
 rm /etc/afak.conf > /dev/null 2>&1
 fi
-if [ ! -f "/etc/log-create-user.log" ]; then
-echo "Log All Account " > /etc/log-create-user.log
+if [ ! -f "/etc/log-create-ssh.log" ]; then
+echo "Log SSH Account " > /etc/log-create-ssh.log
+fi
+if [ ! -f "/etc/log-create-vmess.log" ]; then
+echo "Log Vmess Account " > /etc/log-create-vmess.log
+fi
+if [ ! -f "/etc/log-create-vless.log" ]; then
+echo "Log Vless Account " > /etc/log-create-vless.log
+fi
+if [ ! -f "/etc/log-create-trojan.log" ]; then
+echo "Log Trojan Account " > /etc/log-create-trojan.log
+fi
+if [ ! -f "/etc/log-create-shadowsocks.log" ]; then
+echo "Log Shadowsocks Account " > /etc/log-create-shadowsocks.log
 fi
 history -c
 serverV=$( curl -sS https://raw.githubusercontent.com/toniakbar/VIP/xxx/menu/versi  )
@@ -241,7 +311,3 @@ exit 0
 else
 reboot
 fi
-
-
-
-
