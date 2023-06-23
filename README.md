@@ -77,13 +77,18 @@
 🚀 Shadowsocks gRPC : 443
 <br>
 
-<br>
-  <h2 align="center">
-🚀 Update VPS Kamu Dulu Sebelum Instal Script 🚀<br>
-
+## For Debian 9 & 10 Only For First Time Installation (Update Repo) <br>
+ 
   ```html
-apt update && apt upgrade -y --fix-missing && update-grub && sleep 2 && reboot
-   
+ apt update -y && apt upgrade -y && apt dist-upgrade -y && reboot
+  ```
+##   For Ubuntu 18.04 & 20.04 Only For First Time Installation (Update Repo) <br>
+  
+  ```html
+ apt-get update && apt-get upgrade -y && apt dist-upgrade -y && update-grub && apt install curl -y && reboot
+ ```
+## Installation Link<br>
+
   ```
 <h2 align="center">
 🚀 Installation Script By Digital-Net 🚀<br>
