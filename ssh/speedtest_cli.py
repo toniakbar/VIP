@@ -691,3 +691,7 @@ def main():
 if __name__ == '__main__':
     main()
 # vim:ts=4:sw=4:expandtab
+clear
+sudo apt-get install curl
+curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+sudo apt-get install speedtest
