@@ -47,6 +47,12 @@ echo -e "$ITAM"
 REGION=$( curl -s ipinfo.io/region )
 ISP=$(cat /usr/local/etc/xray/org)
 CITY=$(cat /usr/local/etc/xray/city)
+IPVPS=$(curl -s ipinfo.io/ip?token=7578ac19afd785 )
+cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
+cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
+freq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
+tram=$( free -m | awk 'NR==2 {print $2}' )
+uram=$( free -m | awk 'NR==2 {print $3}' )
 
 # CHEK STATUS 
 tls_v2ray_status=$(systemctl status xray | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
@@ -223,8 +229,8 @@ echo -e "\e[33m              ❇ SYSTEM INFORMATION ❇           \033[0m"
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "\e[33m❇\033[0m  Hostname    : $HOSTNAME"
 echo -e "\e[33m❇\033[0m  OS Name     : $Tipe"
-echo -e "\e[33m❇\033[0m  Total RAM   : ${totalram}MB"
-echo -e "\e[33m❇\033[0m  Public IP   : $MYIP"
+echo -e "\e[33m❇\033[0m  Total RAM   : $tram MB"
+echo -e "\e[33m❇\033[0m  Public IP   : $IPVPS"
 echo -e "\e[33m❇\033[0m  Domain      : $Domen"
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "${GB} ❇ Protocol Service ❇     ❇ Network Protocol ❇  ${NC}"
