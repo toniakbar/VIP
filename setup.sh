@@ -33,7 +33,7 @@ mkdir /tmp >> /dev/null 2>&1
 apt install resolvconf network-manager dnsutils bind9 -y
 cat > /etc/systemd/resolved.conf << END
 [Resolve]
-DNS=8.8.8.8 8.8.4.4
+DNS=1.1.1.1 1.0.0.1
 Domains=~.
 ReadEtcHosts=yes
 END
@@ -43,8 +43,8 @@ systemctl enable NetworkManager
 rm -rf /etc/resolv.conf
 rm -rf /etc/resolvconf/resolv.conf.d/head
 echo "
-nameserver 8.8.8.8
 nameserver 1.1.1.1
+nameserver 1.0.0.1
 nameserver 127.0.0.53
 " >> /etc/resolv.conf
 echo "
